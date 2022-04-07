@@ -16,21 +16,21 @@ export default class Game extends Phaser.Scene {
     const map = this.make.tilemap({ key: "dungeon" });
     const tileset = map.addTilesetImage("dungeon", "tiles", 16, 16);
 
+
     map.createStaticLayer("Ground", tileset); // tao nen dat
     const wallslayer = map.createStaticLayer("Walls", tileset); // tao tuong
 
     wallslayer.setCollisionByProperty({ collides: true }); // ko di qua tuong
 
-    // const debugGraphics = this.add.graphics().setAlpha(0.7);
-    // wallslayer.renderDebug(debugGraphics, {
-    //   tileColor: null,
-    //   collidingTileColor: new Phaser.Display.Color(234, 234, 46, 255),
-    //   faceColor: new Phaser.Display.Color(40, 39, 37, 255),
-    // });
+    const debugGraphics = this.add.graphics().setAlpha(0.7);
+    wallslayer.renderDebug(debugGraphics, {
+      tileColor: null,
+      collidingTileColor: new Phaser.Display.Color(234, 234, 46, 255),
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255),
+    });
 
-    this.faune = this.physics.add.sprite(128, 128, "faune", "walk-down-3.png");
-    //dinh hinh nhan vat
-    this.faune.body.setSize(this.faune.width * 0.5, this.faune.height * 0.8);
+    const faune = this.add.sprite(128, 128, "faune", "walk-down-3.png"); //dinh hinh nhan vat
+
     this.anims.create({
       key: "faune-idle-down",
       frames: [{ key: "faune", frame: "walk-down-3.png" }],
@@ -49,6 +49,7 @@ export default class Game extends Phaser.Scene {
     }); // animetion cua nhan vat
 
     this.anims.create({
+
       key: "faune-run-up",
       frames: this.anims.generateFrameNames("faune", {
         start: 1,
@@ -110,5 +111,30 @@ export default class Game extends Phaser.Scene {
       this.faune.play(parts.join("-"));
       this.faune.setVelocity(0, 0);
     }
+        key: "faune-run-up",
+        frames: this.anims.generateFrameNames("faune", {
+          start: 1,
+          end: 8,
+          prefix: "run-up-",
+          suffix: ".png",
+        }),
+        repeat: -1,
+        frameRate: 15,
+      }); // animetion cua nhan vat
+
+      this.anims.create({
+        key: "faune-run-side",
+        frames: this.anims.generateFrameNames("faune", {
+          start: 1,
+          end: 8,
+          prefix: "run-side-",
+          suffix: ".png",
+        }),
+        repeat: -1,
+        frameRate: 15,
+      }); // animetion cua nhan vat
+ 
+ 
+    faune.anims.play("faune-run-side");
   }
 }
